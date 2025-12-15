@@ -187,6 +187,52 @@ export default function Home() {
     return intensity[label] || 1;
   };
 
+  const getMoodCharacter = (label: string) => {
+    const characters: Record<string, string> = {
+      Chaos: "😵‍💫",
+      Stressed: "😬",
+      Neutral: "😐",
+      Good: "🙂",
+      Vibes: "🔥",
+    };
+    return characters[label] || "😐";
+  };
+
+  const getMoodAnimation = (label: string) => {
+    const animations: Record<string, any> = {
+      Chaos: {
+        rotate: [-5, 5, -5, 5, -5],
+        x: [-3, 3, -3, 3, 0],
+      },
+      Stressed: {
+        y: [-2, 0, -2, 0],
+        scale: [1, 1.05, 1, 1.05, 1],
+      },
+      Neutral: {
+        y: [0, -2, 0],
+      },
+      Good: {
+        y: [0, -10, 0, -5, 0],
+      },
+      Vibes: {
+        rotate: [0, -10, 10, -10, 10, 0],
+        scale: [1, 1.1, 0.9, 1.1, 0.9, 1],
+      },
+    };
+    return animations[label] || { y: [0, -2, 0] };
+  };
+
+  const getAnimationDuration = (label: string) => {
+    const durations: Record<string, number> = {
+      Chaos: 0.3,
+      Stressed: 0.8,
+      Neutral: 3,
+      Good: 0.6,
+      Vibes: 0.5,
+    };
+    return durations[label] || 2;
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-50 to-blue-50">
@@ -387,6 +433,26 @@ export default function Home() {
             <h2 className="text-2xl font-bold mb-4 text-gray-800 relative z-10">
               🎯 Current Mood
             </h2>
+
+            {/* Animated Mood Character */}
+            <motion.div
+              className="flex items-center justify-center mb-6"
+              initial={{ opacity: 0, scale: 0 }}
+              animate={{
+                opacity: 1,
+                scale: 1,
+                ...getMoodAnimation(data.mood_label),
+              }}
+              transition={{
+                duration: getAnimationDuration(data.mood_label),
+                repeat: Infinity,
+                ease: "easeInOut",
+              }}
+            >
+              <div className="text-8xl md:text-9xl drop-shadow-2xl">
+                {getMoodCharacter(data.mood_label)}
+              </div>
+            </motion.div>
 
             {/* Heartbeat animated emoji/icon */}
             <motion.div
