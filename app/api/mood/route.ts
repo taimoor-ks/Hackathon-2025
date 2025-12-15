@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-
 interface MoodAnalysis {
   mood_score: number;
   mood_label: "Chaos" | "Stressed" | "Neutral" | "Good" | "Vibes";
@@ -15,16 +13,18 @@ interface Playlist {
 }
 
 function cleanSlackText(text = ""): string {
-  return text
-    .replace(/<@[^>]+>/g, "")
-    .replace(/<http[^>]+>/g, "")
-    .replace(/<[^>]+>/g, "")
-    .replace(/&amp;/g, "&")
-    .replace(/&lt;/g, "<")
-    .replace(/&gt;/g, ">")
-    // Keep emoji codes - don't strip them, AI needs to see them
-    .replace(/\s+/g, " ")
-    .trim();
+  return (
+    text
+      .replace(/<@[^>]+>/g, "")
+      .replace(/<http[^>]+>/g, "")
+      .replace(/<[^>]+>/g, "")
+      .replace(/&amp;/g, "&")
+      .replace(/&lt;/g, "<")
+      .replace(/&gt;/g, ">")
+      // Keep emoji codes - don't strip them, AI needs to see them
+      .replace(/\s+/g, " ")
+      .trim()
+  );
 }
 
 // Cache for Slack emoji mappings
