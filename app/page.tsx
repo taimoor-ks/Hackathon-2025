@@ -33,8 +33,12 @@ export default function Home() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [cursorTrail, setCursorTrail] = useState<Array<{ x: number; y: number; id: number }>>([]);
-  const [emojiRain, setEmojiRain] = useState<Array<{ x: number; y: number; emoji: string; id: number }>>([]);
+  const [cursorTrail, setCursorTrail] = useState<
+    Array<{ x: number; y: number; id: number }>
+  >([]);
+  const [emojiRain, setEmojiRain] = useState<
+    Array<{ x: number; y: number; emoji: string; id: number }>
+  >([]);
   const trailIdRef = useRef(0);
 
   const fetchMood = async () => {
@@ -55,12 +59,20 @@ export default function Home() {
         }
 
         // Trigger emoji rain for low mood scores or on initial load
-        if (json.mood_score <= 30 && (!prevScore || prevScore !== json.mood_score)) {
+        if (
+          json.mood_score <= 30 &&
+          (!prevScore || prevScore !== json.mood_score)
+        ) {
           triggerEmojiRain(json.top_emojis);
         }
 
         // Trigger emoji rain on mood changes
-        if (prevScore && prevScore !== json.mood_score && json.mood_score > 30 && json.mood_score < 80) {
+        if (
+          prevScore &&
+          prevScore !== json.mood_score &&
+          json.mood_score > 30 &&
+          json.mood_score < 80
+        ) {
           triggerEmojiRain(json.top_emojis);
         }
       }
@@ -325,16 +337,23 @@ export default function Home() {
           className="flex items-center justify-center gap-4 mb-8"
         >
           <p className="text-center text-lg font-semibold text-gray-700">
-            📊 {data.sample_size} messages analyzed
+            📊 {data.sample_size} messages analyzed in the last 24 hours
           </p>
           <motion.button
             onClick={fetchMood}
             disabled={isRefreshing}
             className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-full text-lg font-bold shadow-2xl disabled:opacity-50"
-            whileHover={{ scale: 1.1, boxShadow: "0 20px 60px rgba(139, 92, 246, 0.4)" }}
+            whileHover={{
+              scale: 1.1,
+              boxShadow: "0 20px 60px rgba(139, 92, 246, 0.4)",
+            }}
             whileTap={{ scale: 0.95 }}
             animate={isRefreshing ? { rotate: 360 } : { rotate: 0 }}
-            transition={isRefreshing ? { duration: 1, repeat: Infinity, ease: "linear" } : { duration: 0.3 }}
+            transition={
+              isRefreshing
+                ? { duration: 1, repeat: Infinity, ease: "linear" }
+                : { duration: 0.3 }
+            }
           >
             {isRefreshing ? "🔄" : "↻"} Refresh Mood
           </motion.button>
@@ -351,7 +370,6 @@ export default function Home() {
               data.mood_label
             )} p-8 rounded-2xl shadow-lg relative overflow-hidden`}
           >
-
             {/* Pulse ring animation */}
             <motion.div
               className="absolute inset-0 rounded-2xl border-4 border-purple-500 opacity-20"
@@ -412,7 +430,10 @@ export default function Home() {
                     strokeWidth="10"
                     fill="transparent"
                     strokeLinecap="round"
-                    className={getMoodColor(data.mood_label).replace('text-', 'stroke-')}
+                    className={getMoodColor(data.mood_label).replace(
+                      "text-",
+                      "stroke-"
+                    )}
                     initial={{ strokeDasharray: "0 352" }}
                     animate={{
                       strokeDasharray: `${(data.mood_score / 100) * 352} 352`,
@@ -433,7 +454,9 @@ export default function Home() {
               </div>
             </div>
 
-            <p className="text-lg font-medium text-gray-700 relative z-10 leading-relaxed">{data.summary}</p>
+            <p className="text-lg font-medium text-gray-700 relative z-10 leading-relaxed">
+              {data.summary}
+            </p>
           </motion.div>
 
           <motion.div
@@ -470,14 +493,24 @@ export default function Home() {
             <ResponsiveContainer width="100%" height={180}>
               <BarChart data={chartData}>
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" style={{ fontSize: '14px', fontWeight: 'bold' }} />
-                <YAxis domain={[0, 100]} style={{ fontSize: '14px', fontWeight: 'bold' }} />
-                <Tooltip contentStyle={{ fontSize: '16px', fontWeight: 'bold' }} />
+                <XAxis
+                  dataKey="name"
+                  style={{ fontSize: "14px", fontWeight: "bold" }}
+                />
+                <YAxis
+                  domain={[0, 100]}
+                  style={{ fontSize: "14px", fontWeight: "bold" }}
+                />
+                <Tooltip
+                  contentStyle={{ fontSize: "16px", fontWeight: "bold" }}
+                />
                 <Bar dataKey="value" fill="#8b5cf6" />
               </BarChart>
             </ResponsiveContainer>
             <div className="mt-6 relative z-10">
-              <h3 className="text-xl font-bold text-gray-800 mb-3">🔥 Top Emojis</h3>
+              <h3 className="text-xl font-bold text-gray-800 mb-3">
+                🔥 Top Emojis
+              </h3>
               <div className="flex gap-3 flex-wrap justify-center">
                 {data.top_emojis.map((emoji, i) => (
                   <motion.div
@@ -537,7 +570,9 @@ export default function Home() {
                   >
                     ✓
                   </motion.span>
-                  <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">{signal}</span>
+                  <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">
+                    {signal}
+                  </span>
                 </motion.li>
               ))}
             </ul>
@@ -587,7 +622,9 @@ export default function Home() {
                   >
                     ⚠
                   </motion.span>
-                  <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">{signal}</span>
+                  <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">
+                    {signal}
+                  </span>
                 </motion.li>
               ))}
             </ul>
@@ -603,17 +640,22 @@ export default function Home() {
           <h2 className="text-3xl font-black mb-4 bg-gradient-to-r from-purple-600 via-pink-500 to-blue-600 bg-clip-text text-transparent">
             🎧 Recommended Playlist
           </h2>
-          <p className="text-2xl font-bold mb-6 text-gray-800">{data.playlist.name}</p>
+          <p className="text-2xl font-bold mb-6 text-gray-800">
+            {data.playlist.name}
+          </p>
           <motion.a
             href={data.playlist.url}
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-3 bg-[#1DB954] text-white px-8 py-4 rounded-full text-lg font-black hover:bg-[#1ed760] transition-colors shadow-xl"
-            whileHover={{ scale: 1.1, boxShadow: "0 20px 60px rgba(29, 185, 84, 0.4)" }}
+            whileHover={{
+              scale: 1.1,
+              boxShadow: "0 20px 60px rgba(29, 185, 84, 0.4)",
+            }}
             whileTap={{ scale: 0.95 }}
           >
             <svg className="w-6 h-6" viewBox="0 0 24 24" fill="currentColor">
-              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/>
+              <path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z" />
             </svg>
             Open in Spotify
           </motion.a>
