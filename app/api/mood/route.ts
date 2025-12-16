@@ -40,9 +40,7 @@ async function fetchSlackEmojis(): Promise<Record<string, string>> {
 
   try {
     const res = await fetch("https://slack.com/api/emoji.list", {
-      headers: {
-        Authorization: `Bearer xoxb-2218719514-10119326189153-47nnqtahaD83iyjbJjlMWYdT`,
-      },
+      headers: { Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}` },
     });
     const data = await res.json();
 
@@ -188,6 +186,7 @@ function getBasicEmojiMap(): Record<string, string> {
     ":taco:": "🌮",
     ":kudosity-logo:": "🔮",
     ":rolling_on_the_floor_laughing:": "🤣",
+    ":arrow_up:": "⬆️",
   };
 }
 
@@ -246,9 +245,7 @@ async function fetchSlackMessagesFromChannel(
   )}&oldest=${oldest}`;
 
   const res = await fetch(url, {
-    headers: {
-      Authorization: `Bearer xoxb-2218719514-10119326189153-47nnqtahaD83iyjbJjlMWYdT`,
-    },
+    headers: { Authorization: `Bearer ${process.env.SLACK_BOT_TOKEN}` },
   });
   const data = await res.json();
 
@@ -287,14 +284,9 @@ async function fetchSlackMessagesFromChannel(
 }
 
 async function fetchSlackFromMultipleChannels(): Promise<string[]> {
-  const channelIds = [
-    "C026EM5FA",
-    "CFRH3AM9Q",
-    "C89HPTZSL",
-    "C0103HLM709",
-    "C96SSURUH",
-    "C0A3WV3NMCL",
-  ];
+  const channelIds = process.env
+    .SLACK_CHANNEL_IDS!.split(",")
+    .map((id) => id.trim());
 
   const allMessages = await Promise.all(
     channelIds.map((channelId) => fetchSlackMessagesFromChannel(channelId))
@@ -374,7 +366,7 @@ ${messages.map((m) => `- ${m}`).join("\n")}
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
