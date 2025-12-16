@@ -617,30 +617,41 @@ export default function Home() {
               ✨ Positive Signals
             </h2>
             <ul className="space-y-3">
-              {data.positive_signals.map((signal, i) => (
-                <motion.li
-                  key={i}
-                  className="flex items-start"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.6 + i * 0.1 }}
-                  whileHover={{ x: 10, transition: { duration: 0.2 } }}
-                >
-                  <motion.span
-                    className="text-2xl text-green-600 mr-2"
-                    animate={{ scale: [1, 1.2, 1] }}
-                    transition={{
-                      delay: 0.6 + i * 0.1,
-                      duration: 0.5,
-                    }}
+              {data.positive_signals.length > 0 ? (
+                data.positive_signals.map((signal, i) => (
+                  <motion.li
+                    key={i}
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 + i * 0.1 }}
+                    whileHover={{ x: 10, transition: { duration: 0.2 } }}
                   >
-                    ✓
-                  </motion.span>
-                  <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">
-                    {signal}
-                  </span>
-                </motion.li>
-              ))}
+                    <motion.span
+                      className="text-2xl text-green-600 mr-2"
+                      animate={{ scale: [1, 1.2, 1] }}
+                      transition={{
+                        delay: 0.6 + i * 0.1,
+                        duration: 0.5,
+                      }}
+                    >
+                      ✓
+                    </motion.span>
+                    <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">
+                      {signal}
+                    </span>
+                  </motion.li>
+                ))
+              ) : (
+                <motion.p
+                  className="text-base font-medium text-gray-500 italic"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.6 }}
+                >
+                  No specific positive signals detected in recent messages.
+                </motion.p>
+              )}
             </ul>
           </motion.div>
 
@@ -666,33 +677,44 @@ export default function Home() {
               ⚠️ Areas to Watch
             </h2>
             <ul className="space-y-3">
-              {data.negative_signals.map((signal, i) => (
-                <motion.li
-                  key={i}
-                  className="flex items-start"
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.7 + i * 0.1 }}
-                  whileHover={{ x: 10, transition: { duration: 0.2 } }}
-                >
-                  <motion.span
-                    className="text-2xl text-red-600 mr-2"
-                    animate={{
-                      rotate: [0, -10, 10, -10, 0],
-                      scale: [1, 1.2, 1],
-                    }}
-                    transition={{
-                      delay: 0.7 + i * 0.1,
-                      duration: 0.5,
-                    }}
+              {data.negative_signals.length > 0 ? (
+                data.negative_signals.map((signal, i) => (
+                  <motion.li
+                    key={i}
+                    className="flex items-start"
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.7 + i * 0.1 }}
+                    whileHover={{ x: 10, transition: { duration: 0.2 } }}
                   >
-                    ⚠
-                  </motion.span>
-                  <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">
-                    {signal}
-                  </span>
-                </motion.li>
-              ))}
+                    <motion.span
+                      className="text-2xl text-red-600 mr-2"
+                      animate={{
+                        rotate: [0, -10, 10, -10, 0],
+                        scale: [1, 1.2, 1],
+                      }}
+                      transition={{
+                        delay: 0.7 + i * 0.1,
+                        duration: 0.5,
+                      }}
+                    >
+                      ⚠
+                    </motion.span>
+                    <span className="text-base font-medium text-gray-700 leading-relaxed pt-1">
+                      {signal}
+                    </span>
+                  </motion.li>
+                ))
+              ) : (
+                <motion.p
+                  className="text-base font-medium text-gray-500 italic"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.7 }}
+                >
+                  No specific concerns detected. Everything looks good!
+                </motion.p>
+              )}
             </ul>
           </motion.div>
         </div>

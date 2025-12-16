@@ -187,6 +187,7 @@ function getBasicEmojiMap(): Record<string, string> {
     ":unamused:": "😒",
     ":taco:": "🌮",
     ":kudosity-logo:": "🔮",
+    ":rolling_on_the_floor_laughing:": "🤣",
   };
 }
 
@@ -373,7 +374,7 @@ ${messages.map((m) => `- ${m}`).join("\n")}
   const res = await fetch("https://api.openai.com/v1/chat/completions", {
     method: "POST",
     headers: {
-      Authorization: `Bearer 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`,
+      Authorization: `Bearer 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`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
